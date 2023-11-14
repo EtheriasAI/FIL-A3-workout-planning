@@ -1,0 +1,15 @@
+{
+    "projectName": "WorkoutPlanning",
+    "languages": [{
+        "id": "workout-planning",
+        "grammar": "src/language/workout-planning.langium",
+        "fileExtensions": [".wop"],
+        "textMate": {
+            "out": "syntaxes/workout-planning.tmLanguage.json"
+        },
+        "monarch": {
+            "out": "syntaxes/workout-planning.monarch.ts"
+        }
+    }],
+    "out": "src/language/generated"
+}
