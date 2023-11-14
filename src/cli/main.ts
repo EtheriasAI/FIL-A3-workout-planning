@@ -27,6 +27,7 @@ export default function(): void {
 
     const fileExtensions = WorkoutPlanningLanguageMetaData.fileExtensions.join(', ');
     program
+        .version('0.0.1')
         .command('generate')
         .argument('<file>', `source file (possible file extensions: ${fileExtensions})`)
         .option('-d, --destination <dir>', 'destination directory of generating')
