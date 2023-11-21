@@ -1,13 +1,20 @@
 grammar WorkoutPlanning
 
 entry Model:
-    (persons+=Person | greetings+=Greeting)*;
+    (exercises+=Exercise | days+=Day)*;
 
-Person:
-    'person' name=ID;
+Exercise:
+    'Exercise' name=ID
+    'duration:' duration=INT
+    'bodyPart:' bodyPart=ID
+    'kcal:' kcal=INT
+;    
 
-Greeting:
-    'Hello' person=[Person:ID] '!';
+Day:
+    'Day' name=ID
+    'duration:' duration=INT
+    'bodyParts:' bodyParts+=ID*
+;    
 
 hidden terminal WS: /\s+/;
 terminal ID: /[_a-zA-Z][\w_]*/;

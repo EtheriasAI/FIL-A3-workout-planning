@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import type { WorkoutPlanningAstType, Person } from './generated/ast.js';
+import type { WorkoutPlanningAstType, Day } from './generated/ast.js';
 import type { WorkoutPlanningServices } from './workout-planning-module.js';
 
 /**
@@ -9,7 +9,7 @@ export function registerValidationChecks(services: WorkoutPlanningServices) {
     const registry = services.validation.ValidationRegistry;
     const validator = services.validation.WorkoutPlanningValidator;
     const checks: ValidationChecks<WorkoutPlanningAstType> = {
-        Person: validator.checkPersonStartsWithCapital
+        Day: validator.checkDayNotNull
     };
     registry.register(checks, validator);
 }
@@ -19,12 +19,9 @@ export function registerValidationChecks(services: WorkoutPlanningServices) {
  */
 export class WorkoutPlanningValidator {
 
-    checkPersonStartsWithCapital(person: Person, accept: ValidationAcceptor): void {
-        if (person.name) {
-            const firstChar = person.name.substring(0, 1);
-            if (firstChar.toUpperCase() !== firstChar) {
-                accept('warning', 'Person name should start with a capital.', { node: person, property: 'name' });
-            }
+    checkDayNotNull(day: Day, accept: ValidationAcceptor): void {
+        if (day.name===null) {
+            accept('warning', 'Need an exercise name.',{ node:day });
         }
     }
 

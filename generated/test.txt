@@ -1,0 +1,6 @@
+Monday
+  Body parts: upper, lower
+  Duration: 50 minutes
+  Exercises:
+   - Exercise: squat
+   - Exercise: natation
