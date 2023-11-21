@@ -1,0 +1,3 @@
+Day: Monday, Body Part: upper,lower,assign,exercises,Monday
+  Exercise: abdo, Body Part: abdos
+  Exercise: natation, Body Part: abdos

@@ -1,13 +1,7 @@
 grammar WorkoutPlanning
 
 entry Model:
-    (persons+=Person | greetings+=Greeting | exercises+=Exercise | days+=Day | assigns+=assign)*;
-
-Person:
-    'person' name=ID;
-
-Greeting:
-    'Hello' person=[Person:ID] '!';
+    (exercises+=Exercise | days+=Day)*;
 
 Exercise:
     'Exercise' name=ID
@@ -20,10 +14,6 @@ Day:
     'Day' name=ID
     'duration' time=INT
     'bodyPart' bodyPart+=ID*
-;    
-
-assign:
-    'assign exercises' day=[Day:ID]
 ;    
 
 hidden terminal WS: /\s+/;
