@@ -8,11 +8,10 @@ import { generateWorkoutPlan } from './generator.js';
 import { NodeFileSystem } from 'langium/node';
 
 export const generate = async (fileName: string, opts: GenerateOptions): Promise<void> => {
-    console.log('test')
     const services = createWorkoutPlanningServices(NodeFileSystem).WorkoutPlanning;
     const model = await extractAstNode<Model>(fileName, services);
     const generatedFilePath = generateWorkoutPlan(model, fileName, opts.destination);
-    console.log(chalk.green(`JavaScript code generated successfully: ${generatedFilePath}`));
+    console.log(chalk.green(`Text file generated successfully: ${generatedFilePath}`));
 };
 
 export type GenerateOptions = {
