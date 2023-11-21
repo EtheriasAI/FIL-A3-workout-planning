@@ -28,23 +28,44 @@ export function act(model: Model, filePath: string, destination: string | undefi
     fileNode.append('"use strict";', NL, NL);
     model.exercises.forEach(exo => fileNode.append(`console.log('Hello, ${exo.name}!');`, NL));
     model.days.forEach(day => fileNode.append(`console.log('Hello, ${day.name}!');`, NL));
-    const calendrier = new Map<Day, Exercise[]>();
-
-    let exo1 = model.exercises[0]
-    let exo2 = model.exercises[1]
-    let listof = [exo1, exo2]
-    //listof.add(exo1)
-    //listof.Add(exo2)
-    calendrier.set(model.days[0],listof)
+    const calendar = maximizeExercises(model.days, model.exercises)
 
     if (!fs.existsSync(data.destination)) {
         fs.mkdirSync(data.destination, { recursive: true });
     }
-    console.log(calendrier)
-    fs.writeFileSync(generatedFilePath, convertCalendarToString(calendrier));
+    fs.writeFileSync(generatedFilePath, convertCalendarToString(calendar));
     return generatedFilePath;
 }
 
+function maximizeExercises(days: Day[], exercises: Exercise[]): Map<Day, Exercise[]> {
+    exercises.sort((a: Exercise, b: Exercise) => {
+      if (b.duration !== a.duration) {
+        return b.duration - a.duration;
+      }
+      return a.bodyPart.localeCompare(b.bodyPart);
+    });
+  
+    const assignedExercises = new Map<Day, Exercise[]>();
+  
+    for (const day of days) {
+      const dayExercises: Exercise[] = [];
+  
+      let remainingDuration = day.duration;
+      for (const exercise of exercises) {
+        if (
+          remainingDuration >= exercise.duration &&
+          day.bodyParts.includes(exercise.bodyPart)
+        ) {
+          dayExercises.push(exercise);
+          remainingDuration -= exercise.duration;
+        }
+      }
+  
+      assignedExercises.set(day, dayExercises);
+    }
+  
+    return assignedExercises;
+  }
 
 
 function convertCalendarToString(calendrier: Map<Day, Exercise[]>): string {
@@ -52,12 +73,32 @@ function convertCalendarToString(calendrier: Map<Day, Exercise[]>): string {
 
 
     for (const [day, exercises] of calendrier.entries()) {
-        resultString += `Day: ${day.name}, Body Part: ${day.bodyPart}\n`;
+        resultString += `${day.name}\n`;
+        resultString += `  Body parts: ${day.bodyParts.join(', ')}\n`;
+        resultString += `  Duration: ${day.duration} minutes\n`;
+        resultString += `  Exercises:\n`;
 
         for (const exercise of exercises) {
-            resultString += `  Exercise: ${exercise.name}, Body Part: ${exercise.bodyPart}\n`;
+            resultString += `   - Exercise: ${exercise.name}\n`;
         }
     }
 
     return resultString;
 }
+
+// Monday
+// - Body parts: upper,lower,abs
+// - Duration : 50 minutes
+// - Exercises :
+// 	- ExerciseUpper
+// 	- ExerciceLowerShort
+// 	- ExerciseAbs
+// - Total kcal consumed: 1140
+
+// Tuesday
+// - Body parts: upper,lower,abs
+// - Duration : 30 minutes
+// - Exercises :
+// 	- ExerciceLowerLong
+// 	- ExerciceLowerShort
+// - Total kcal consumed: 400

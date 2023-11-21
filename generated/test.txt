@@ -1,3 +1,6 @@
-Day: Monday, Body Part: upper,lower,assign,exercises,Monday
-  Exercise: abdo, Body Part: abdos
-  Exercise: natation, Body Part: abdos
+Monday
+  Body parts: upper, lower
+  Duration: 50 minutes
+  Exercises:
+   - Exercise: squat
+   - Exercise: natation

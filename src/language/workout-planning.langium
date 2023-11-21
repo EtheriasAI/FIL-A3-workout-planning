@@ -5,15 +5,15 @@ entry Model:
 
 Exercise:
     'Exercise' name=ID
-    'duration' time=INT
+    'duration' duration=INT
     'bodyPart' bodyPart=ID
     'kcal' kcal=INT
 ;    
 
 Day:
     'Day' name=ID
-    'duration' time=INT
-    'bodyPart' bodyPart+=ID*
+    'duration' duration=INT
+    'bodyParts' bodyParts+=ID*
 ;    
 
 hidden terminal WS: /\s+/;
