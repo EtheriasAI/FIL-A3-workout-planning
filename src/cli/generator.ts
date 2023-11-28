@@ -23,10 +23,7 @@ export function generateWorkoutPlan(model: Model, filePath: string, destination:
 
 function maximizeExercises(days: Day[], exercises: Exercise[]): Map<Day, Exercise[]> {
     exercises.sort((a: Exercise, b: Exercise) => {
-      if (b.duration !== a.duration) {
-        return b.duration - a.duration;
-      }
-      return a.bodyPart.localeCompare(b.bodyPart);
+      return b.duration - a.duration;
     });
   
     const assignedExercises = new Map<Day, Exercise[]>();
