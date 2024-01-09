@@ -5,13 +5,16 @@ import { extractAstNode } from "./cli-util.js";
 import { Model } from "../language/generated/ast.js";
 import { IDRegistry } from "./id-registry.js";
 import { ModelElementBuilder } from "../model-element-builder.js";
+import { WorkoutState } from "../workout-state.js";
 
 class LRPServicesImpl implements LRPServices {
-    static registries: Map<string, IDRegistry> = new Map();
+    static registry: IDRegistry;
+    static workout: Model;
+    static workoutState: WorkoutState;
     
-    async parse(args: ParseArguments): Promise<ParseResponse> {
+    static async parse(args: ParseArguments): Promise<ParseResponse> {
         const newRegistry: IDRegistry = new IDRegistry();
-        LRPServicesImpl.registries.set(args.sourceFile, newRegistry);
+        LRPServicesImpl.registry = newRegistry;
         const services = createWorkoutPlanningServices(NodeFileSystem).WorkoutPlanning;
         const workoutAst = await extractAstNode<Model>(args.sourceFile, services);
         
@@ -22,19 +25,24 @@ class LRPServicesImpl implements LRPServices {
         }
 
     }
-    initExecution(args: InitArguments): InitResponse {
+    static initExecution(args: InitArguments): InitResponse {
+        if(!LRPServicesImpl.workout) { throw new Error("No workout parsed yet."); }
+        this.workoutState = new WorkoutState(LRPServicesImpl.workout);
+        return {
+            // TODO: isExecutionDone should be true when the workout is done
+            isExecutionDone: false
+        }
+    }
+    static getRuntimeState(args: GetRuntimeStateArguments): GetRuntimeStateResponse {
         throw new Error("Method not implemented.");
     }
-    getRuntimeState(args: GetRuntimeStateArguments): GetRuntimeStateResponse {
+    static nextStep(args: StepArguments): StepResponse {
         throw new Error("Method not implemented.");
     }
-    nextStep(args: StepArguments): StepResponse {
+    static getBreakpointTypes(): GetBreakpointTypesResponse {
         throw new Error("Method not implemented.");
     }
-    getBreakpointTypes(): GetBreakpointTypesResponse {
-        throw new Error("Method not implemented.");
-    }
-    checkBreakpoint(args: CheckBreakpointArguments): CheckBreakpointResponse {
+    static checkBreakpoint(args: CheckBreakpointArguments): CheckBreakpointResponse {
         throw new Error("Method not implemented.");
     }
 }
@@ -60,30 +68,16 @@ class GetBreakpointTypesResponseImpl implements GetBreakpointTypesResponse {
 }
 
 export class ModelElementImpl implements ModelElement {
-    id: string;
-    type: string;
-    children: { [key: string]: ModelElement | ModelElement[]; };
-    refs: { [key: string]: string | string[]; };
-    attributes: { [key: string]: any; };
-    location?: Location | undefined;
-
     constructor(
-        id: string,
-        type: string,
-        children: { [key: string]: ModelElement | ModelElement[] },
-        refs: { [key: string]: string | string[]; },
-        attributes: { [key: string]: any; },
-        location?: Location | undefined,
-    ) {
-        this.id = id;
-        this.type = type;
-        this.children = children;
-        this.refs = refs;
-        this.attributes = attributes;
-        this.location = location;
-    }
-    
+        public id: string,
+        public type: string,
+        public children: { [key: string]: ModelElement | ModelElement[] },
+        public refs: { [key: string]: string | string[] },
+        public attributes: { [key: string]: any },
+        public location?: Location,
+    ) {}
 }
+
 
 class StepResponseImpl implements StepResponse {
     isExecutionDone: boolean;
