@@ -7,7 +7,7 @@ import { IDRegistry } from "./id-registry.js";
 import { ModelElementBuilder } from "../model-element-builder.js";
 import { WorkoutState } from "../workout-state.js";
 
-class LRPServicesImpl implements LRPServices {
+export class LRPServicesImpl implements LRPServices {
     static registry: IDRegistry;
     static workout: Model;
     static workoutState: WorkoutState;
