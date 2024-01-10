@@ -67,18 +67,6 @@ class GetBreakpointTypesResponseImpl implements GetBreakpointTypesResponse {
 
 }
 
-export class ModelElementImpl implements ModelElement {
-    constructor(
-        public id: string,
-        public type: string,
-        public children: { [key: string]: ModelElement | ModelElement[] },
-        public refs: { [key: string]: string | string[] },
-        public attributes: { [key: string]: any },
-        public location?: Location,
-    ) {}
-}
-
-
 class StepResponseImpl implements StepResponse {
     isExecutionDone: boolean;
 

@@ -17,44 +17,43 @@ export class ModelElementBuilder {
             days.push(this.fromDay(day));
         });
 
-        return new ModelElementImpl(
-            this.registry.getOrCreateASTId(workout),
-            workout.$type,
-            {
+        return {
+            id: this.registry.getOrCreateASTId(workout),
+            type: workout.$type,
+            children: {
                 days: days,
                 exercises: exercises
             },
-            {},
-            {}
-        );
+            refs: {},
+            attributes: {}
+        } as ModelElement;
     }
 
     public fromDay(day: Day): ModelElement {
-        return new ModelElementImpl(
-            this.registry.getOrCreateASTId(day),
-            day.$type,
-            {},
-            {},
-            {
+        return {
+            id: this.registry.getOrCreateASTId(day),
+            type: day.$type,
+            attributes: {
                 bodyParts: day.bodyParts,
                 duration: day.duration,
                 name: day.name
-            }
-        );
+            },
+            refs: {},
+            children: {}
+        } as ModelElement;
     }
 
     public fromExercise(exercise: Exercise): ModelElement {
-        return new ModelElementImpl(
-            this.registry.getOrCreateASTId(exercise),
-            exercise.$type,
-            {},
-            {},
-            {
+        return {
+            id: this.registry.getOrCreateASTId(exercise),
+            type: exercise.$type,
+            attributes: {
                 bodyPart: exercise.bodyPart,
                 duration: exercise.duration,
-                kcal: exercise.kcal,
                 name: exercise.name
-            }
-        );
+            },
+            refs: {},
+            children: {}
+        } as ModelElement;
     }
 }
