@@ -1,5 +1,5 @@
 import { Exercise } from "./language/generated/ast.js";
 
 export class ExerciseState {
-    constructor(exercise: Exercise) {}
+    constructor(public exercise: Exercise) {}
 }

@@ -1,7 +1,10 @@
 import { IDRegistry } from "./cli/id-registry.js";
 import { ModelElement } from "./cli/lrp.js";
 import { ModelElementImpl } from "./cli/lrpImpl.js";
+import { DayState } from "./day-state.js";
+import { ExerciseState } from "./exercise-state.js";
 import { Day, Exercise, Model } from "./language/generated/ast.js";
+import { WorkoutState } from "./workout-state.js";
 
 export class ModelElementBuilder {
     constructor(private registry: IDRegistry) { }
@@ -55,5 +58,54 @@ export class ModelElementBuilder {
             refs: {},
             children: {}
         } as ModelElement;
+    }
+
+    public fromWorkoutState(workoutState: WorkoutState): ModelElement {
+        const exercises: ModelElement[] = [];
+        workoutState.exercises.forEach(exercise => {
+            exercises.push(this.fromExerciseState(exercise));
+        });
+
+        const days: ModelElement[] = [];
+        workoutState.days.forEach(day => {
+            days.push(this.fromDayState(day));
+        });
+
+        return {
+            id: this.registry.getOrCreateRuntimeId(workoutState),
+            type: "WorkoutState",
+            children: {
+                days: days,
+                exercises: exercises
+            },
+            refs: {
+                workout: this.registry.getOrCreateASTId(workoutState.workout)
+            },
+            attributes: {}
+        }
+    }
+
+    public fromExerciseState(exerciseState: ExerciseState): ModelElement {
+        return {
+            id: this.registry.getOrCreateRuntimeId(exerciseState),
+            type: "ExerciseState",
+            children: {},
+            refs: {
+                exercise: this.registry.getOrCreateASTId(exerciseState.exercise)
+            },
+            attributes: {}
+        }
+    }
+
+    public fromDayState(dayState: DayState): ModelElement {
+        return {
+            id: this.registry.getOrCreateRuntimeId(dayState),
+            type: "DayState",
+            children: {},
+            refs: {
+                day: this.registry.getOrCreateASTId(dayState.day)
+            },
+            attributes: {}
+        }
     }
 }

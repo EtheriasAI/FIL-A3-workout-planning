@@ -1,5 +1,5 @@
 import { Day } from "./language/generated/ast.js";
 
 export class DayState {
-    constructor(day: Day) {}
+    constructor(public day: Day) {}
 }

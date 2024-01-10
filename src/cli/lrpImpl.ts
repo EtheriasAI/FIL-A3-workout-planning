@@ -34,7 +34,11 @@ class LRPServicesImpl implements LRPServices {
         }
     }
     static getRuntimeState(args: GetRuntimeStateArguments): GetRuntimeStateResponse {
-        throw new Error("Method not implemented.");
+        const builder = new ModelElementBuilder(LRPServicesImpl.registry);
+
+        return {
+            runtimeStateRoot: builder.fromWorkoutState(LRPServicesImpl.workoutState)
+        }
     }
     static nextStep(args: StepArguments): StepResponse {
         throw new Error("Method not implemented.");
