@@ -26,7 +26,9 @@ export class WorkoutGenerator {
   maximizeExercises(){
     const sortedExercises = this.sortExercises();
 
-    this.populateDays(sortedExercises);
+    while (!this.isFinished()) {
+      this.populateDay(sortedExercises);
+    }
   }
 
 
@@ -34,12 +36,6 @@ export class WorkoutGenerator {
     return this.exercises.sort((a: Exercise, b: Exercise) => {
       return b.duration - a.duration;
     });
-  }
-
-  populateDays(exercises: Exercise[]) {
-    while (!this.isFinished()) {
-      this.populateDay(exercises);
-    }
   }
 
   populateDay(exercises: Exercise[]) {

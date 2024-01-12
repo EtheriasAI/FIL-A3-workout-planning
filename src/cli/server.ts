@@ -21,8 +21,8 @@ export class LRPServer {
             'getRuntimeState': function (args: any[], callback: Function) {
                 callback(null, LRPServicesImpl.getRuntimeState(args[0]));
             },
-            'executeStep': function (args: any[], callback: Function) {
-                callback(null, LRPServicesImpl.executeStep(args[0]));
+            'nextStep': function (args: any[], callback: Function) {
+                callback(null, LRPServicesImpl.nextStep(args[0]));
             },
             'getBreakpointTypes': function (args: any[], callback: Function) {
                 callback(null, LRPServicesImpl.getBreakpointTypes());

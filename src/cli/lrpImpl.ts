@@ -17,6 +17,7 @@ export class LRPServicesImpl implements LRPServices {
         LRPServicesImpl.registry = newRegistry;
         const services = createWorkoutPlanningServices(NodeFileSystem).WorkoutPlanning;
         const workoutAst = await extractAstNode<Model>(args.sourceFile, services);
+        this.workout = workoutAst;
         
         const builder: ModelElementBuilder = new ModelElementBuilder(newRegistry);
         
@@ -41,7 +42,10 @@ export class LRPServicesImpl implements LRPServices {
         }
     }
     static nextStep(args: StepArguments): StepResponse {
-        throw new Error("Method not implemented.");
+        LRPServicesImpl.workoutState.next();
+        return {
+            isExecutionDone: 
+        }
     }
     static getBreakpointTypes(): GetBreakpointTypesResponse {
         throw new Error("Method not implemented.");
@@ -49,29 +53,4 @@ export class LRPServicesImpl implements LRPServices {
     static checkBreakpoint(args: CheckBreakpointArguments): CheckBreakpointResponse {
         throw new Error("Method not implemented.");
     }
-}
-
-
-class InitResponseImpl implements InitResponse {
-    isExecutionDone: boolean;
-}
-
-class GetRuntimeStateResponseImpl implements GetRuntimeStateResponse {
-    runtimeStateRoot: ModelElement;
-
-}
-
-class CheckBreakpointResponseImpl implements CheckBreakpointResponse {
-    isActivated: boolean;
-    message?: string | undefined;
-}
-
-class GetBreakpointTypesResponseImpl implements GetBreakpointTypesResponse {
-    breakpointTypes: BreakpointType[];
-
-}
-
-class StepResponseImpl implements StepResponse {
-    isExecutionDone: boolean;
-
 }

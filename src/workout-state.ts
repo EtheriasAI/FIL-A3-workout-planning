@@ -1,21 +1,16 @@
-import { DayState } from "./day-state.js";
-import { ExerciseState } from "./exercise-state.js";
+import { WorkoutGenerator } from "./cli/generator.js";
 import { Model } from "./language/generated/ast.js";
 
 export class WorkoutState {
     readonly workout: Model;
-    readonly days: DayState[] = [];
-    readonly exercises: ExerciseState[] = [];
+    workoutGenerator: WorkoutGenerator;
     
     constructor(workout: Model){
         this.workout = workout;
+        this.workoutGenerator = new WorkoutGenerator();
+    }
 
-        workout.days.forEach(day => {
-            this.days.push(new DayState(day));
-        });
-
-        workout.exercises.forEach(exercise => {
-            this.exercises.push(new ExerciseState(exercise));
-        });
+    isFinished(): boolean {
+        return this.workoutGenerator.isFinished();
     }
 }
