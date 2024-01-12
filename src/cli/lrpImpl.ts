@@ -7,7 +7,7 @@ import { IDRegistry } from "./id-registry.js";
 import { ModelElementBuilder } from "../model-element-builder.js";
 import { WorkoutState } from "../workout-state.js";
 
-export class LRPServicesImpl implements LRPServices {
+export class LRPServicesImpl {
     static registry: IDRegistry;
     static workout: Model;
     static workoutState: WorkoutState;
@@ -18,7 +18,7 @@ export class LRPServicesImpl implements LRPServices {
         const services = createWorkoutPlanningServices(NodeFileSystem).WorkoutPlanning;
         const workoutAst = await extractAstNode<Model>(args.sourceFile, services);
         this.workout = workoutAst;
-        
+
         const builder: ModelElementBuilder = new ModelElementBuilder(newRegistry);
         
         return {
@@ -30,8 +30,7 @@ export class LRPServicesImpl implements LRPServices {
         if(!LRPServicesImpl.workout) { throw new Error("No workout parsed yet."); }
         this.workoutState = new WorkoutState(LRPServicesImpl.workout);
         return {
-            // TODO: isExecutionDone should be true when the workout is done
-            isExecutionDone: false
+            isExecutionDone: this.workoutState.isFinished()
         }
     }
     static getRuntimeState(args: GetRuntimeStateArguments): GetRuntimeStateResponse {

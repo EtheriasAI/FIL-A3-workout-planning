@@ -9,9 +9,9 @@ export class LRPServer {
 
     constructor() {
         this.server = new Server({
-            'initialize': function (args: any[], callback: Function) {
-                callback(null, LRPServicesImpl.initialize());
-            },
+            // 'initialize': function (args: any[], callback: Function) {
+            //     callback(null, LRPServicesImpl.initialize());
+            // },
             'parse': async function (args: any[], callback: Function) {
                 callback(null, await LRPServicesImpl.parse(args[0]));
             },
@@ -30,15 +30,15 @@ export class LRPServer {
             'checkBreakpoint': function (args: any[], callback: Function) {
                 callback(null, LRPServicesImpl.checkBreakpoint(args[0]));
             },
-            'getSteppingModes': function (args: any[], callback: Function) {
-                callback(null, LRPServicesImpl.getSteppingModes());
-            },
-            'getAvailableSteps': function (args: any[], callback: Function) {
-                callback(null, LRPServicesImpl.getAvailableSteps(args[0]));
-            },
-            'getStepLocation': function (args: any[], callback: Function) {
-                callback(null, LRPServicesImpl.getStepLocation(args[0]));
-            },
+            // 'getSteppingModes': function (args: any[], callback: Function) {
+            //     callback(null, LRPServicesImpl.getSteppingModes());
+            // },
+            // 'getAvailableSteps': function (args: any[], callback: Function) {
+            //     callback(null, LRPServicesImpl.getAvailableSteps(args[0]));
+            // },
+            // 'getStepLocation': function (args: any[], callback: Function) {
+            //     callback(null, LRPServicesImpl.getStepLocation(args[0]));
+            // },
         });
     }
 
