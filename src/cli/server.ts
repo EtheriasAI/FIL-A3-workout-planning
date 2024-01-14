@@ -1,11 +1,13 @@
-import { Server } from 'jayson';
+import pkg from 'jayson';
+const { Server } = pkg;
+
 import { LRPServicesImpl } from './lrpImpl.js';
 
 /**
  * TCP server running at a given port and providing LRP services.
  */
 export class LRPServer {
-    private server: Server;
+    private server;
 
     constructor() {
         this.server = new Server({

@@ -1,5 +1,5 @@
 import { NodeFileSystem } from "langium/node";
-import { BreakpointType, CheckBreakpointArguments, CheckBreakpointResponse, GetBreakpointTypesResponse, GetRuntimeStateArguments, GetRuntimeStateResponse, InitArguments, InitResponse, LRPServices, Location, ModelElement, ParseArguments, ParseResponse, StepArguments, StepResponse } from "./lrp.js";
+import { CheckBreakpointArguments, CheckBreakpointResponse, GetBreakpointTypesResponse, GetRuntimeStateArguments, GetRuntimeStateResponse, InitArguments, InitResponse, ParseArguments, ParseResponse, StepArguments, StepResponse } from "./lrp.js";
 import { createWorkoutPlanningServices } from "../language/workout-planning-module.js";
 import { extractAstNode } from "./cli-util.js";
 import { Model } from "../language/generated/ast.js";
