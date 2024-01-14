@@ -43,7 +43,7 @@ export class LRPServicesImpl {
     static nextStep(args: StepArguments): StepResponse {
         LRPServicesImpl.workoutState.next();
         return {
-            isExecutionDone: 
+            isExecutionDone: LRPServicesImpl.workoutState.isFinished()
         }
     }
     static getBreakpointTypes(): GetBreakpointTypesResponse {

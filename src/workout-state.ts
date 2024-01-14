@@ -7,7 +7,11 @@ export class WorkoutState {
     
     constructor(workout: Model){
         this.workout = workout;
-        this.workoutGenerator = new WorkoutGenerator();
+        this.workoutGenerator = new WorkoutGenerator(workout);
+    }
+
+    next() {
+        this.workoutGenerator.populateDay();
     }
 
     isFinished(): boolean {

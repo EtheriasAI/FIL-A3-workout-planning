@@ -8,13 +8,16 @@ export class WorkoutGenerator {
   daysToFill: Day[] = [];
   exercises: Exercise[] = [];
 
-  constructor(){}
+  constructor(model: Model){
+    this.daysToFill = model.days;
+    this.exercises = this.sortExercises(model.exercises);
+  }
   
   generateWorkoutPlan(model: Model, filePath: string, destination: string | undefined): string {
     const data = extractDestinationAndName(filePath, destination);
     const generatedFilePath = `${path.join(data.destination, data.name)}.txt`;
     this.daysToFill = model.days;
-    this.exercises = model.exercises;
+    this.exercises = this.sortExercises(model.exercises);
 
     if (!fs.existsSync(data.destination)) {
         fs.mkdirSync(data.destination, { recursive: true });
@@ -24,27 +27,25 @@ export class WorkoutGenerator {
   }
 
   maximizeExercises(){
-    const sortedExercises = this.sortExercises();
-
     while (!this.isFinished()) {
-      this.populateDay(sortedExercises);
+      this.populateDay();
     }
   }
 
 
-  sortExercises() {
-    return this.exercises.sort((a: Exercise, b: Exercise) => {
+  sortExercises(exercises: Exercise[]) {
+    return exercises.sort((a: Exercise, b: Exercise) => {
       return b.duration - a.duration;
     });
   }
 
-  populateDay(exercises: Exercise[]) {
+  populateDay() {
     const day = this.daysToFill.pop() as Day;
     if(!day) return;
     const dayExercises: Exercise[] = [];
 
     let remainingDuration = day.duration;
-    for (const exercise of exercises) {
+    for (const exercise of this.exercises) {
       if (
         remainingDuration >= exercise.duration &&
         day.bodyParts.includes(exercise.bodyPart)
