@@ -1,6 +1,5 @@
 import { IDRegistry } from "./cli/id-registry.js";
 import { ModelElement } from "./cli/lrp.js";
-import { ModelElementImpl } from "./cli/lrpImpl.js";
 import { DayState } from "./day-state.js";
 import { ExerciseState } from "./exercise-state.js";
 import { Day, Exercise, Model } from "./language/generated/ast.js";

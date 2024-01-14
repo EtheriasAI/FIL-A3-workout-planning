@@ -4,14 +4,13 @@ import { Command } from 'commander';
 import { WorkoutPlanningLanguageMetaData } from '../language/generated/module.js';
 import { createWorkoutPlanningServices } from '../language/workout-planning-module.js';
 import { extractAstNode } from './cli-util.js';
-import { generateWorkoutPlan } from './generator.js';
 import { NodeFileSystem } from 'langium/node';
 
 export const generate = async (fileName: string, opts: GenerateOptions): Promise<void> => {
     const services = createWorkoutPlanningServices(NodeFileSystem).WorkoutPlanning;
     const model = await extractAstNode<Model>(fileName, services);
-    const generatedFilePath = generateWorkoutPlan(model, fileName, opts.destination);
-    console.log(chalk.green(`Text file generated successfully: ${generatedFilePath}`));
+    // const generatedFilePath = generateWorkoutPlan(model, fileName, opts.destination);
+    // console.log(chalk.green(`Text file generated successfully: ${generatedFilePath}`));
 };
 
 export type GenerateOptions = {
