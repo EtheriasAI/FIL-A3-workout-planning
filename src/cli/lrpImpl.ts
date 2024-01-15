@@ -47,7 +47,7 @@ export class LRPServicesImpl {
         }
     }
     static getBreakpointTypes(): GetBreakpointTypesResponse {
-        throw new Error("Method not implemented.");
+        return {breakpointTypes: []};
     }
     static checkBreakpoint(args: CheckBreakpointArguments): CheckBreakpointResponse {
         throw new Error("Method not implemented.");
